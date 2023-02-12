@@ -1,71 +1,109 @@
 import { useContext } from "react"
-import { useForm, Resolver } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
-import { FirstFormValues } from "../types/myTypes"
 import { MultiPageFormContext } from "../context/MultiPageContext"
-
-
+import { AllFormType } from "../context/MultiPageContext"
+import { TextField,Button } from "@mui/material"
 
 
 export default function FirstPage() {
 
-    const { register, formState: { errors }, watch, handleSubmit  } = useForm<FirstFormValues>()
-    const {formData, handleData} = useContext(MultiPageFormContext);
-
-
+    const { formData, handleData } = useContext(MultiPageFormContext);
+    const { register, formState: { errors }, watch, handleSubmit } = useForm<Partial<AllFormType>>(
+        {
+            defaultValues: {
+                firstName: formData?.firstName,
+                lastName: formData?.lastName,
+                password: formData?.password,
+                confirmPassword: formData?.confirmPassword
+            }
+        }
+    )
     const navigate = useNavigate();
 
 
-    function saveFirstForm(data:FirstFormValues){
+    function saveFirstForm(data: Partial<AllFormType>) {
         handleData(data)
         navigate("/2")
     }
-    console.log(formData)
 
 
     return (
 
-        <form style={{ display: "flex", flexDirection: "column" }} onSubmit={handleSubmit(saveFirstForm)}>
-            <input
+        <form onSubmit={handleSubmit(saveFirstForm)}>
+            <TextField
                 {
-                ...register("firstName")
+                ...register("firstName", {
+                    minLength: {
+                        value: 2,
+                        message: "Name too short"
+                    },
+                    pattern: {
+                        value: /^[A-Za-z]+$/,
+                        message: "Name should contain only letter"
+                    }
 
-                }
-                placeholder="First name"
-            />
-            <p>{errors.firstName?.message}</p>
-
-            <input
-                {...register("lastName", { 
-                    minLength: 2 
                 })}
-                placeholder="Last name"
-            />
-            <input
-                type="password"
-                {...register("password")}
-                placeholder="Password"
+                label="First Name"
+                error={!!errors.firstName}
+                helperText={errors?.firstName?.message}
+                variant="outlined"
+                margin="normal"
             />
 
-            <input
+            <TextField
+                {...register("lastName", {
+                    minLength: {
+                        value: 2,
+                        message: "Name too short"
+                    },
+                    pattern: {
+                        value: /^[A-Za-z]+$/,
+                        message: "Name should contain only letter"
+                    }
+                })}
+                label="Last name"
+                error={!!errors.lastName}
+                helperText={errors?.lastName?.message}
+                variant="outlined"
+                margin="normal"
+
+            />
+
+            <TextField
+                type="password"
+                {...register("password", {
+                    minLength: {
+                        value: 8,
+                        message: "Password at least 8 letter"
+                    }
+                })}
+                label="Password"
+                error={!!errors.password}
+                helperText={errors?.password?.message}
+                variant="outlined"
+                margin="normal"
+
+            />
+
+            <TextField
                 type="password"
                 {...register("confirmPassword", {
                     required: true,
-                    validate: (val: string) => {
+                    validate: (val: string | undefined) => {
                         if (watch('password') != val) {
                             return "Your passwords do not match";
                         }
                     }
                 })}
-                placeholder="Password"
+                label="Password"
+                error={!!errors.confirmPassword}
+                helperText={errors?.confirmPassword?.message}
+                variant="outlined"
+                margin="normal"
+    
             />
-           <p>{errors.confirmPassword?.message}</p>
-
-
-
-
-            <button type="submit">Next</button>
-
+            <Button variant="outlined" type="submit">Next</Button>
         </form>
     )
 }
