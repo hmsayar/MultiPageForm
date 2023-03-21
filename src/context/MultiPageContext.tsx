@@ -7,49 +7,19 @@ interface Props {
     children: React.ReactNode
 }
 interface ContextType {
-    formData: AllFormType | null;
-    handleData: (data: Partial<AllFormType>) => void;
+    formData: AllFormType<any> | null;
+    handleData: (data: object) => void;
 }
-export interface AllFormType {
-    firstName?: string;
-    lastName?: string;
-    password?: string;
-    confirmPassword?: string;
-    primarySelect?: string;
-    secondarySelect?: string;
-    agree?: boolean;
-    email?: string;
-    startDay: number;
-    startMonth: number;
-    startYear: number;
-    endDay: number;
-    endMonth: number;
-    endYear: number;
-
+export type AllFormType<Type> = {
+    [Property in keyof Type]: Type[Property];
 }
 
 function MultiPageFormContextProvider({ children }: Props) {
 
 
-    const [formData, setFormData] = useSessionStorage<AllFormType>("form", {
-        firstName: "",
-        lastName: "",
-        password: "",
-        confirmPassword: "",
-        primarySelect: "A",
-        secondarySelect: "A1",
-        agree: false,
-        email: "",
-        startDay: getTimeNums().day,
-        startMonth: getTimeNums().month,
-        startYear: getTimeNums().year,
-        endDay: getTimeNums().day + 1,
-        endMonth: getTimeNums().month,
-        endYear: getTimeNums().year
+    const [formData, setFormData] = useSessionStorage<AllFormType<{}>>("form",{})
 
-    })
-
-    function handleData(data: Partial<AllFormType>) {
+    function handleData(data: object) {
         setFormData({ ...formData, ...data })
     }
 

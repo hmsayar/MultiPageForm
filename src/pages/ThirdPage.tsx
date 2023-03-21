@@ -4,20 +4,29 @@ import { useNavigate } from "react-router-dom"
 import { MultiPageFormContext } from "../context/MultiPageContext"
 import { Button, ButtonGroup, Box, TextField } from "@mui/material"
 import getTimeNums from "../utils/getTimeNums"
-import { AllFormType } from "../context/MultiPageContext"
+
+
+type thirdPageType={
+    startDay: number;
+    startMonth: number;
+    startYear: number;
+    endDay: number;
+    endMonth: number;
+    endYear: number;
+}
 
 export default function ThirdPage() {
     
     const navigate = useNavigate();
     const { formData, handleData } = useContext(MultiPageFormContext);
-    const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors } = useForm<Partial<AllFormType>>({
+    const { register, handleSubmit, formState: { errors }, watch, setError, clearErrors } = useForm<thirdPageType>({
         defaultValues: {
-            startDay: formData?.startDay,
-            startMonth: formData?.startMonth,
-            startYear: formData?.startYear,
-            endDay: formData?.endDay,
-            endMonth: formData?.endMonth,
-            endYear: formData?.endYear
+            startDay: getTimeNums().day,
+            startMonth: getTimeNums().month,
+            startYear: getTimeNums().year,
+            endDay: getTimeNums().day + 1,
+            endMonth: getTimeNums().month,
+            endYear: getTimeNums().year
         } 
     })
     const watchAllFields = watch();
@@ -71,11 +80,12 @@ export default function ThirdPage() {
         }   
     }
     
-    function saveThirdForm(data: Partial<AllFormType>) {
+    function saveThirdForm(data: thirdPageType) {
         handleData(data)
-        alert(JSON.stringify(formData))
+       alert(formData)
     }
     
+
     return (
         <form onSubmit={handleSubmit(saveThirdForm)}>
 

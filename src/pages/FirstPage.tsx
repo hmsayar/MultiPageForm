@@ -5,11 +5,18 @@ import { MultiPageFormContext } from "../context/MultiPageContext"
 import { AllFormType } from "../context/MultiPageContext"
 import { TextField,Button } from "@mui/material"
 
+type firstPageType ={
+    firstName:string;
+    lastName:string;
+    password:string;
+    confirmPassword:string;
+}
+
 
 export default function FirstPage() {
 
     const { formData, handleData } = useContext(MultiPageFormContext);
-    const { register, formState: { errors }, watch, handleSubmit } = useForm<Partial<AllFormType>>(
+    const { register, formState: { errors }, watch, handleSubmit } = useForm<firstPageType>(
         {
             defaultValues: {
                 firstName: formData?.firstName,
@@ -22,7 +29,7 @@ export default function FirstPage() {
     const navigate = useNavigate();
 
 
-    function saveFirstForm(data: Partial<AllFormType>) {
+    function saveFirstForm(data: Partial<AllFormType<firstPageType>>) {
         handleData(data)
         navigate("/2")
     }

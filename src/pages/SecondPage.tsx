@@ -16,11 +16,18 @@ const selectInputData: selectedType = {
     C: ["C1", "C2", "C3"],
 }
 
+type secondPageType = {
+    primarySelect:string;
+    secondarySelect:string;
+    agree:boolean;
+    email:string;
+}
+
 
 export default function SecondPage() {
 
     const { formData, handleData } = useContext(MultiPageFormContext);
-    const { register, handleSubmit, formState: { errors }, watch, control } = useForm<Partial<AllFormType>>(
+    const { register, handleSubmit, formState: { errors }, watch, control } = useForm<secondPageType>(
         {
             defaultValues: {
                 primarySelect: formData?.primarySelect,
@@ -47,7 +54,7 @@ export default function SecondPage() {
 
     }, [watchSecondarySelect])
 
-    function saveSecondForm(data: Partial<AllFormType>) {
+    function saveSecondForm(data: secondPageType) {
         if (data.agree) {
             handleData(data)
         } else if (!data.agree) {
