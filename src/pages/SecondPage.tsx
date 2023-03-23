@@ -2,9 +2,11 @@ import { useContext, useState, useEffect } from "react"
 import { useForm, Controller } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { MultiPageFormContext } from "../context/MultiPageContext"
-import { AllFormType } from "../context/MultiPageContext"
+
 
 import { TextField, Button, ButtonGroup, Checkbox, FormControlLabel, MenuItem, Container } from "@mui/material"
+
+import { secondPageType } from "../types"
 
 interface selectedType {
     [key: string]: string[];
@@ -16,12 +18,7 @@ const selectInputData: selectedType = {
     C: ["C1", "C2", "C3"],
 }
 
-type secondPageType = {
-    primarySelect:string;
-    secondarySelect:string;
-    agree:boolean;
-    email:string;
-}
+
 
 
 export default function SecondPage() {

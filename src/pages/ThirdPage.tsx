@@ -5,15 +5,9 @@ import { MultiPageFormContext } from "../context/MultiPageContext"
 import { Button, ButtonGroup, Box, TextField } from "@mui/material"
 import getTimeNums from "../utils/getTimeNums"
 
+import { thirdPageType } from "../types"
 
-type thirdPageType={
-    startDay: number;
-    startMonth: number;
-    startYear: number;
-    endDay: number;
-    endMonth: number;
-    endYear: number;
-}
+
 
 export default function ThirdPage() {
     
@@ -82,7 +76,7 @@ export default function ThirdPage() {
     
     function saveThirdForm(data: thirdPageType) {
         handleData(data)
-       alert(formData)
+       alert(JSON.stringify(formData))
     }
     
 

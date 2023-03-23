@@ -2,15 +2,10 @@ import { useContext } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { MultiPageFormContext } from "../context/MultiPageContext"
-import { AllFormType } from "../context/MultiPageContext"
+
 import { TextField,Button } from "@mui/material"
 
-type firstPageType ={
-    firstName:string;
-    lastName:string;
-    password:string;
-    confirmPassword:string;
-}
+import { firstPageType } from "../types"
 
 
 export default function FirstPage() {
@@ -29,7 +24,7 @@ export default function FirstPage() {
     const navigate = useNavigate();
 
 
-    function saveFirstForm(data: Partial<AllFormType<firstPageType>>) {
+    function saveFirstForm(data: firstPageType ) {
         handleData(data)
         navigate("/2")
     }
