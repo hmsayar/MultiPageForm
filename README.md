@@ -33,13 +33,6 @@ A comprehensive multi-page form app built with React, TypeScript, react-hook-for
 5. Open your browser and navigate to `http://localhost:5173`.
 
 
-## Technologies Used
-
-- React.js
-- TypeScript
-- react-hook-form
-- Material UI
-- Vite
 
 ## Notes
 
